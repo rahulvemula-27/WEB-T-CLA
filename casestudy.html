@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Quiz Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="casestudy.css">
+</head>
+
+<body>
+    <div class="container text-center">
+        <h1 class="my-4">F1 Quiz Game</h1>
+        <div id="start-screen">
+            <button class="btn btn-success" onclick="startQuiz()">Start Quiz</button>
+        </div>
+        <div id="quiz-container" style="display: none;">
+            <p class="question" id="question"></p>
+            <div class="options" id="options"></div>
+            <p id="feedback"></p>
+        </div>
+        <div id="end-screen" style="display: none;">
+            <h2>Quiz Completed!</h2>
+            <p id="score"></p>
+            <button class="btn btn-primary" onclick="restartQuiz()">Restart</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const quizData = [
+                { question: "Who has won the most F1 championships?", options: ["Lewis Hamilton", "Michael Schumacher", "Max Verstappen", "Ayrton Senna"], answer: "Michael Schumacher" },
+                { question: "Which team has the most Constructors' Championships?", options: ["Mercedes", "Ferrari", "Red Bull", "McLaren"], answer: "Ferrari" },
+                { question: "Which country hosts the Monaco Grand Prix?", options: ["France", "Italy", "Monaco", "Spain"], answer: "Monaco" },
+                { question: "Who was the first ever F1 World Champion?", options: ["Juan Manuel Fangio", "Giuseppe Farina", "Alberto Ascari", "Stirling Moss"], answer: "Giuseppe Farina" },
+                { question: "What is the fastest street circuit in F1?", options: ["Baku", "Jeddah", "Monaco", "Singapore"], answer: "Jeddah" },
+                { question: "Who holds the record for most pole positions in F1?", options: ["Ayrton Senna", "Michael Schumacher", "Lewis Hamilton", "Sebastian Vettel"], answer: "Lewis Hamilton" },
+                { question: "Which F1 team did Ayrton Senna win his three titles with?", options: ["McLaren", "Williams", "Lotus", "Ferrari"], answer: "McLaren" }
+            ];
+
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            function startQuiz() {
+                document.getElementById("start-screen").style.display = "none";
+                document.getElementById("quiz-container").style.display = "block";
+                loadQuestion();
+            }
+
+            function loadQuestion() {
+                if (currentQuestionIndex >= quizData.length) {
+                    endQuiz();
+                    return;
+                }
+
+                const questionData = quizData[currentQuestionIndex];
+                document.getElementById('question').textContent = questionData.question;
+                const optionsContainer = document.getElementById('options');
+                optionsContainer.innerHTML = '';
+
+                questionData.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.classList.add('btn', 'btn-primary', 'd-block', 'mx-auto', 'my-2');
+                    button.onclick = () => checkAnswer(option);
+                    optionsContainer.appendChild(button);
+                });
+            }
+
+            function checkAnswer(selected) {
+                const correct = quizData[currentQuestionIndex].answer;
+                const feedback = document.getElementById('feedback');
+
+                if (selected === correct) {
+                    feedback.textContent = "Correct! 🎉";
+                    feedback.style.color = "green";
+                    score++;
+                } else {
+                    feedback.textContent = `Wrong! The correct answer is ${correct}.`;
+                    feedback.style.color = "red";
+                }
+
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    feedback.textContent = '';
+                    loadQuestion();
+                }, 2000);
+            }
+
+            function endQuiz() {
+                document.getElementById("quiz-container").style.display = "none";
+                document.getElementById("end-screen").style.display = "block";
+                document.getElementById("score").textContent = `Your Score: ${score}/${quizData.length}`;
+            }
+
+            function restartQuiz() {
+                currentQuestionIndex = 0;
+                score = 0;
+                document.getElementById("end-screen").style.display = "none";
+                startQuiz();
+            }
+
+            window.startQuiz = startQuiz;
+            window.restartQuiz = restartQuiz;
+        });
+    </script>
+</body>
+
+</html>
