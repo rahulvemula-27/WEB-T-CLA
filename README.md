@@ -137,11 +137,11 @@ Final score is displayed at the end with an option to restart.
 
 **5. Features & Enhancements**
 
-✅ Start and End screens for a structured flow.
-✅ Dynamic question loading using JavaScript.
-✅ Automatic feedback system for correct and incorrect answers.
-✅ Score tracking to evaluate performance.
-✅ Restart option to play again.
+Start and End screens for a structured flow.
+Dynamic question loading using JavaScript.
+Automatic feedback system for correct and incorrect answers.
+Score tracking to evaluate performance.
+Restart option to play again.
 
 **6. Conclusion**
 
